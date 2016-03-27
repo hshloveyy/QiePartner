@@ -72,7 +72,7 @@ public class MainActivity extends Activity {
 	 */
 	public void login() {
 		if (!mTencent.isSessionValid()) {
-			mTencent.login(this, "get_user_info", new MyIUiListener(this));
+			mTencent.login(this, "all", new MyIUiListener(this));
 		}
 	}
 }
