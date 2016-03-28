@@ -1,7 +1,5 @@
 package com.sea.qiepartner.listener;
 
-import org.json.JSONObject;
-
 import android.content.Context;
 import android.os.Handler;
 import android.os.Message;
@@ -35,7 +33,7 @@ public class BaseIUiListener implements IUiListener {
 	@Override
 	public void onComplete(Object arg0) {
 		Message msg = new Message();
-		msg.what = 0;
+		msg.what = 1;
 		msg.obj = arg0;
 		
 		mHandler.sendMessage(msg);
