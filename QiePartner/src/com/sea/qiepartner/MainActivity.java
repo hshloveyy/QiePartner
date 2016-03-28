@@ -8,12 +8,14 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.tencent.tauth.Tencent;
 
 public class MainActivity extends Activity {
 
-	private static final String APP_ID = "tencent1105287282";
+	private static final String APP_ID = "1105287282";
+//	private static final String APP_ID = "tencent222222";
 	private Tencent mTencent;
 	
 	//登录手机QQ按钮
@@ -71,8 +73,10 @@ public class MainActivity extends Activity {
 	 * 跳转到QQ登录界面
 	 */
 	public void login() {
+		Toast.makeText(this, mTencent.getAppId(), Toast.LENGTH_LONG).show();
 		if (!mTencent.isSessionValid()) {
 			mTencent.login(this, "all", new MyIUiListener(this));
+//			mTencent.checkLogin(new MyIUiListener(this));
 		}
 	}
 }
