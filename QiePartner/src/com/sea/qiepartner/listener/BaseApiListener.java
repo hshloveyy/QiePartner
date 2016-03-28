@@ -1,4 +1,4 @@
-package com.sea.qiepartner;
+package com.sea.qiepartner.listener;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
@@ -17,7 +17,7 @@ import com.tencent.tauth.IRequestListener;
  * @author heshaohua
  *
  */
-class MyApiListener implements IRequestListener {
+public class BaseApiListener implements IRequestListener {
 
 	@Override
 	public void onComplete(JSONObject arg0) {

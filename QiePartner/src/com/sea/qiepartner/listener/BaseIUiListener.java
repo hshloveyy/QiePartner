@@ -1,10 +1,12 @@
-package com.sea.qiepartner;
+package com.sea.qiepartner.listener;
 
 import org.json.JSONObject;
 
 import android.content.Context;
+import android.util.Log;
 import android.widget.Toast;
 
+import com.sea.qiepartner.AppConstants;
 import com.tencent.tauth.IUiListener;
 import com.tencent.tauth.UiError;
 
@@ -13,11 +15,11 @@ import com.tencent.tauth.UiError;
  * @author heshaohua
  *
  */
-class MyIUiListener implements IUiListener {
+public class BaseIUiListener implements IUiListener {
 
 	private Context mContext;
 	
-	public MyIUiListener(Context mContext){
+	public BaseIUiListener(Context mContext){
 		this.mContext = mContext;
 	}
 	
@@ -29,7 +31,8 @@ class MyIUiListener implements IUiListener {
 	@Override
 	public void onComplete(Object arg0) {
 		JSONObject json = (JSONObject)arg0;
-		Toast.makeText(mContext, json.toString(), Toast.LENGTH_LONG).show();
+		
+		Log.i(AppConstants.TAG, json.toString());
 	}
 
 	@Override

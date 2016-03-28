@@ -1,25 +1,32 @@
-package com.sea.qiepartner;
+package com.sea.qiepartner.activities;
+
+import org.json.JSONObject;
 
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
-import android.widget.Toast;
 
+import com.sea.qiepartner.AppConstants;
+import com.sea.qiepartner.R;
+import com.sea.qiepartner.listener.BaseIUiListener;
+import com.tencent.tauth.IUiListener;
 import com.tencent.tauth.Tencent;
+import com.tencent.tauth.UiError;
 
 public class MainActivity extends Activity {
-
-	private static final String APP_ID = "1105287282";
-//	private static final String APP_ID = "tencent222222";
+	
 	private Tencent mTencent;
 	
 	//登录手机QQ按钮
 	private Button loginQQBtn;
+	
+	private IUiListener uiListener;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -27,7 +34,7 @@ public class MainActivity extends Activity {
 		setContentView(R.layout.activity_main);
 		// Tencent类是SDK的主要实现类，开发者可通过Tencent类访问腾讯开放的OpenAPI。
 		// 其中APP_ID是分配给第三方应用的appid，类型为String。
-		mTencent = Tencent.createInstance(APP_ID, this.getApplicationContext());
+		mTencent = Tencent.createInstance(AppConstants.APP_ID, this.getApplicationContext());
 		// 1.4版本:此处需新增参数，传入应用程序的全局context，可通过activity的getApplicationContext方法获取
 		// 初始化视图
 		initViews();
@@ -42,6 +49,8 @@ public class MainActivity extends Activity {
 				login();
 			}
 		});
+		
+		uiListener = new BaseIUiListener(this);
 		
 	}
 
@@ -66,17 +75,19 @@ public class MainActivity extends Activity {
 
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-		Tencent.onActivityResultData(requestCode, resultCode, data, null);
+		Log.d(AppConstants.TAG, "requestCode -> " + requestCode + "\nresultCode -> " + resultCode);
+		Log.d(AppConstants.TAG, "data -> " + data.getDataString());
+		Tencent.onActivityResultData(requestCode, resultCode, data, uiListener);
+		
+	    super.onActivityResult(requestCode, resultCode, data);
 	}
 
 	/**
 	 * 跳转到QQ登录界面
 	 */
 	public void login() {
-		Toast.makeText(this, mTencent.getAppId(), Toast.LENGTH_LONG).show();
 		if (!mTencent.isSessionValid()) {
-			mTencent.login(this, "all", new MyIUiListener(this));
-//			mTencent.checkLogin(new MyIUiListener(this));
+			mTencent.login(this, "all", uiListener);
 		}
 	}
 }
