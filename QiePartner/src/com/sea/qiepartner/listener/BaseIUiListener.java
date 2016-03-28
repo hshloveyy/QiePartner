@@ -3,6 +3,8 @@ package com.sea.qiepartner.listener;
 import org.json.JSONObject;
 
 import android.content.Context;
+import android.os.Handler;
+import android.os.Message;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -18,9 +20,11 @@ import com.tencent.tauth.UiError;
 public class BaseIUiListener implements IUiListener {
 
 	private Context mContext;
+	private Handler mHandler;
 	
-	public BaseIUiListener(Context mContext){
+	public BaseIUiListener(Context mContext, Handler mHandler){
 		this.mContext = mContext;
+		this.mHandler = mHandler;
 	}
 	
 	@Override
@@ -30,9 +34,12 @@ public class BaseIUiListener implements IUiListener {
 
 	@Override
 	public void onComplete(Object arg0) {
-		JSONObject json = (JSONObject)arg0;
+		Message msg = new Message();
+		msg.what = 0;
+		msg.obj = arg0;
 		
-		Log.i(AppConstants.TAG, json.toString());
+		mHandler.sendMessage(msg);
+		Log.i(AppConstants.TAG, arg0.toString());
 	}
 
 	@Override

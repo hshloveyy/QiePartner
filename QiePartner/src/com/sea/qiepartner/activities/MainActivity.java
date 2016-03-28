@@ -1,10 +1,15 @@
 package com.sea.qiepartner.activities;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -15,9 +20,9 @@ import android.widget.Button;
 import com.sea.qiepartner.AppConstants;
 import com.sea.qiepartner.R;
 import com.sea.qiepartner.listener.BaseIUiListener;
+import com.tencent.connect.common.Constants;
 import com.tencent.tauth.IUiListener;
 import com.tencent.tauth.Tencent;
-import com.tencent.tauth.UiError;
 
 public class MainActivity extends Activity {
 	
@@ -27,6 +32,20 @@ public class MainActivity extends Activity {
 	private Button loginQQBtn;
 	
 	private IUiListener uiListener;
+	
+	private Handler mHandler = new Handler() {
+
+		@Override
+		public void handleMessage(Message msg) {
+			if (msg.what == 0) {
+				JSONObject response = (JSONObject) msg.obj;
+//				 UserInfo info = new UserInfo(this, MainActivity.mQQAuth.getQQToken());
+			}else if(msg.what == 1){
+				
+			}
+		}
+
+	};
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -50,7 +69,7 @@ public class MainActivity extends Activity {
 			}
 		});
 		
-		uiListener = new BaseIUiListener(this);
+		uiListener = new BaseIUiListener(this, mHandler);
 		
 	}
 
@@ -90,4 +109,18 @@ public class MainActivity extends Activity {
 			mTencent.login(this, "all", uiListener);
 		}
 	}
+	
+	public void initOpenidAndToken(JSONObject jsonObject) {
+        try {
+            String token = jsonObject.getString(Constants.PARAM_ACCESS_TOKEN);
+            String expires = jsonObject.getString(Constants.PARAM_EXPIRES_IN);
+            String openId = jsonObject.getString(Constants.PARAM_OPEN_ID);
+            if (!TextUtils.isEmpty(token) && !TextUtils.isEmpty(expires)
+                    && !TextUtils.isEmpty(openId)) {
+                mTencent.setAccessToken(token, expires);
+                mTencent.setOpenId(openId);
+            }
+        } catch(Exception e) {
+        }
+    }
 }

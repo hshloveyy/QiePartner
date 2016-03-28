@@ -1,7 +1,8 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context="com.sea.qiepartner.activities.MainActivity" >
 
 	<Button 
@@ -10,4 +11,6 @@
 	    android:layout_width="fill_parent"
 	    android:text="@string/login_text"
 	    />
-</RelativeLayout>
+	
+	<TextView android:layout_height="20dp" android:layout_width="fill_parent" android:id="@+id/nickNameTxt" android:visibility="gone"/>
+</LinearLayout>
